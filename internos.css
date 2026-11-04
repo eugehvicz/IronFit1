@@ -1,0 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #171717;
+    color: white;
+}
+
+.pagina {
+    display: flex;
+    min-height: 100vh;
+}
+
+.menu {
+    width: 230px;
+    background: #242424;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu h1 {
+    margin-bottom: 40px;
+    font-size: 30px;
+}
+
+.menu h1 span {
+    color: #e63946;
+}
+
+.menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.menu nav a {
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.menu nav a:hover,
+.menu nav a.ativo {
+    background: #e63946;
+}
+
+.menu button {
+    margin-top: auto;
+    padding: 12px;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.conteudo {
+    flex: 1;
+    padding: 35px;
+    overflow-x: auto;
+}
+
+.conteudo h2 {
+    margin-bottom: 25px;
+}
+
+.formulario {
+    background: #242424;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    max-width: 750px;
+}
+
+.formulario h3 {
+    margin-bottom: 20px;
+}
+
+.formulario label {
+    display: block;
+    margin: 12px 0 7px;
+}
+
+.formulario input,
+.formulario select,
+.formulario textarea {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #383838;
+    color: white;
+}
+
+.formulario button,
+.botao {
+    margin-top: 18px;
+    padding: 12px 20px;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    background: #242424;
+    margin-top: 15px;
+}
+
+.tabela th,
+.tabela td {
+    padding: 13px;
+    border-bottom: 1px solid #444;
+    text-align: left;
+}
+
+.tabela th {
+    background: #303030;
+}
+
+.tabela button {
+    padding: 8px 10px;
+    margin: 3px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.editar {
+    background: #e0a52b;
+    color: black;
+}
+
+.excluir {
+    background: #e63946;
+    color: white;
+}
+
+#mensagem {
+    margin-top: 15px;
+}
+
+@media (max-width: 700px) {
+    .pagina {
+        flex-direction: column;
+    }
+
+    .menu {
+        width: 100%;
+    }
+
+    .menu button {
+        margin-top: 20px;
+    }
+
+    .conteudo {
+        padding: 20px;
+    }
+}

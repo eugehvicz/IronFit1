@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronFit - Agendamentos</title>
+    <link rel="stylesheet" href="internos.css">
+</head>
+<body>
+
+<div class="pagina">
+
+    <aside class="menu">
+        <h1>IRON<span>FIT</span></h1>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="alunos.html">Alunos</a>
+            <a href="personais.html">Personais</a>
+            <a href="agendamentos.html" class="ativo">Agendamentos</a>
+        </nav>
+
+        <button id="btnSair">SAIR</button>
+    </aside>
+
+    <main class="conteudo">
+        <h2>Gerenciamento de Agendamentos</h2>
+
+        <div class="formulario">
+            <h3>Novo agendamento</h3>
+
+            <form id="formTreino">
+                <label>Aluno</label>
+                <select id="aluno" required>
+                    <option value="">Selecione um aluno</option>
+                </select>
+
+                <label>Data</label>
+                <input type="date" id="dataTreino" required>
+
+                <label>Horário</label>
+                <input type="time" id="horario" required>
+
+                <label>Duração (minutos)</label>
+                <input type="number" id="duracao" min="1" required>
+
+                <label>Observações</label>
+                <textarea id="observacoes"></textarea>
+
+                <button type="submit">CADASTRAR AGENDAMENTO</button>
+            </form>
+
+            <p id="mensagem"></p>
+        </div>
+
+        <h3>Agendamentos cadastrados</h3>
+
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Personal</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Duração</th>
+                    <th>Observações</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaTreinos"></tbody>
+        </table>
+    </main>
+
+</div>
+
+<script src="agendamentos.js"></script>
+</body>
+</html>
