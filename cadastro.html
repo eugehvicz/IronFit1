@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronFit - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="login-box">
+
+            <h1>IRON<span>FIT</span></h1>
+            <p>Cadastrar administrador</p>
+
+            <form id="formCadastro">
+
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" placeholder="Digite seu nome" required>
+
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="Crie uma senha" required minlength="6">
+
+                <label for="confirmarSenha">Confirmar senha</label>
+                <input type="password" id="confirmarSenha" placeholder="Digite a senha novamente" required>
+
+                <button type="submit">CADASTRAR</button>
+
+            </form>
+
+            <p id="mensagem"></p>
+
+            <div class="link-cadastro">
+                <p>Já possui uma conta?</p>
+                <a href="index.html">Voltar para o login</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API = "https://localhost:7067/api";
+
+const form = document.getElementById("formCadastro");
+const mensagem = document.getElementById("mensagem");
+
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    const confirmarSenha = document.getElementById("confirmarSenha").value;
+
+    if (senha !== confirmarSenha) {
+        mensagem.textContent = "As senhas não são iguais.";
+        mensagem.style.color = "red";
+        return;
+    }
+
+    const usuario = {
+        nome: nome,
+        email: email,
+        senha: senha,
+        perfil: "Administrador"
+    };
+
+    try {
+        const resposta = await fetch(`${API}/Usuario/cadastrar`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(usuario)
+        });
+
+        if (resposta.ok) {
+            mensagem.textContent = "Administrador cadastrado com sucesso!";
+            mensagem.style.color = "lightgreen";
+
+            form.reset();
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1500);
+
+        } else {
+            const erro = await resposta.text();
+
+            mensagem.textContent = erro || "Não foi possível realizar o cadastro.";
+            mensagem.style.color = "red";
+        }
+
+    } catch (erro) {
+        mensagem.textContent = "Erro ao conectar com o servidor.";
+        mensagem.style.color = "red";
+    }
+});
+    </script>
+
+</body>
+</html>

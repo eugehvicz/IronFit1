@@ -164,10 +164,17 @@ async function excluirAluno(id) {
     });
 
     if (resposta.ok) {
-        alert("Aluno excluído!");
+        alert("Aluno excluído com sucesso!");
         await carregarAlunos();
     } else {
-        alert("Não foi possível excluir. Verifique se há treinos vinculados.");
+        const erro = await resposta.text();
+
+        if (erro.includes("FK_Treino_AlunoPersonal") ||
+            erro.includes("REFERENCE")) {
+            alert("Não é possível excluir este aluno, pois ele possui agendamentos vinculados.");
+        } else {
+            alert("Não foi possível excluir o aluno.");
+        }
     }
 }
 

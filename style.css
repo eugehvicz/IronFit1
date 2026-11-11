@@ -75,3 +75,25 @@ button {
 button:hover {
     background-color: #c92f3b;
 }
+
+.link-cadastro {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.link-cadastro p {
+    color: #bbbbbb;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.link-cadastro a {
+    color: #e63946;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-cadastro a:hover {
+    text-decoration: underline;
+}
+
