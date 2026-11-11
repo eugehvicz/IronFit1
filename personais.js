@@ -13,7 +13,7 @@ document.getElementById("btnSair").addEventListener("click", function() {
 const form = document.getElementById("formPersonal");
 const mensagem = document.getElementById("mensagem");
 
-// CARREGAR PERSONAIS
+
 async function carregarPersonais(busca = "") {
     const resposta = await fetch(
         `${API}/Personal?busca=${encodeURIComponent(busca)}`
@@ -42,7 +42,7 @@ async function carregarPersonais(busca = "") {
     });
 }
 
-// CADASTRAR PERSONAL
+
 form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -70,7 +70,6 @@ form.addEventListener("submit", async function(event) {
     }
 });
 
-// ABRIR JANELA DE EDIÇÃO
 async function editarPersonal(id) {
     const respostaLista = await fetch(`${API}/Personal`);
     const personais = await respostaLista.json();
@@ -92,14 +91,14 @@ async function editarPersonal(id) {
 
 window.editarPersonal = editarPersonal;
 
-// FECHAR JANELA
+
 function fecharModalPersonal() {
     document.getElementById("modalEditarPersonal").style.display = "none";
 }
 
 window.fecharModalPersonal = fecharModalPersonal;
 
-// SALVAR ALTERAÇÕES
+
 document.getElementById("formEditarPersonal").addEventListener("submit", async function(event) {
     event.preventDefault();
 

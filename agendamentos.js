@@ -13,7 +13,6 @@ document.getElementById("btnSair").addEventListener("click", function() {
 const form = document.getElementById("formTreino");
 const mensagem = document.getElementById("mensagem");
 
-// CARREGAR ALUNOS
 async function carregarAlunos() {
     const resposta = await fetch(`${API}/Aluno`);
     const alunos = await resposta.json();
@@ -29,7 +28,7 @@ async function carregarAlunos() {
     });
 }
 
-// CARREGAR AGENDAMENTOS
+
 async function carregarTreinos() {
     const resposta = await fetch(`${API}/Treino`);
     const treinos = await resposta.json();
@@ -63,7 +62,7 @@ async function carregarTreinos() {
     });
 }
 
-// CADASTRAR AGENDAMENTO
+
 form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -92,7 +91,7 @@ form.addEventListener("submit", async function(event) {
     }
 });
 
-// ABRIR JANELA DE EDIÇÃO
+
 function alterarData(id, dataAtual) {
     document.getElementById("editarIdTreino").value = id;
     document.getElementById("editarDataTreino").value = dataAtual;
@@ -102,14 +101,13 @@ function alterarData(id, dataAtual) {
 
 window.alterarData = alterarData;
 
-// FECHAR JANELA
 function fecharModalTreino() {
     document.getElementById("modalEditarTreino").style.display = "none";
 }
 
 window.fecharModalTreino = fecharModalTreino;
 
-// SALVAR ALTERAÇÃO
+
 document.getElementById("formEditarTreino").addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -133,7 +131,7 @@ document.getElementById("formEditarTreino").addEventListener("submit", async fun
     }
 });
 
-// EXCLUIR AGENDAMENTO
+
 async function excluirTreino(id) {
     if (!confirm("Deseja realmente excluir este agendamento?")) return;
 

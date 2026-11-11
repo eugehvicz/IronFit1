@@ -127,7 +127,7 @@ function fecharModalAluno() {
 
 window.fecharModalAluno = fecharModalAluno;
 
-// SALVAR ALTERAÇÕES
+
 document.getElementById("formEditarAluno").addEventListener("submit", async function(event) {
     event.preventDefault();
 
