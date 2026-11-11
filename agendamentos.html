@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IronFit - Agendamentos</title>
-    <link rel="stylesheet" href="internos.css">
+    <link rel="stylesheet" href="telasdedentro.css">
 </head>
 <body>
 
@@ -71,6 +71,37 @@
         </table>
     </main>
 
+</div>
+<div id="modalEditarTreino" class="modal">
+    <div class="modal-conteudo">
+
+        <div class="modal-cabecalho">
+            <h2>Editar agendamento</h2>
+
+            <button type="button" class="fechar-modal" onclick="fecharModalTreino()">
+                ×
+            </button>
+        </div>
+
+        <form id="formEditarTreino">
+
+            <input type="hidden" id="editarIdTreino">
+
+            <label for="editarDataTreino">Data do treino</label>
+            <input type="date" id="editarDataTreino" required>
+
+            <div class="modal-botoes">
+                <button type="button" class="cancelar" onclick="fecharModalTreino()">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="salvar">
+                    Salvar alterações
+                </button>
+            </div>
+
+        </form>
+    </div>
 </div>
 
 <script src="agendamentos.js"></script>

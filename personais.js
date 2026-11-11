@@ -1,3 +1,4 @@
+
 const API = "https://localhost:7067/api";
 
 if (!localStorage.getItem("usuario")) {
@@ -12,6 +13,7 @@ document.getElementById("btnSair").addEventListener("click", function() {
 const form = document.getElementById("formPersonal");
 const mensagem = document.getElementById("mensagem");
 
+// CARREGAR PERSONAIS
 async function carregarPersonais(busca = "") {
     const resposta = await fetch(
         `${API}/Personal?busca=${encodeURIComponent(busca)}`
@@ -27,7 +29,6 @@ async function carregarPersonais(busca = "") {
 
         linha.innerHTML = `
             <td>${personal.nome}</td>
-            <td>${personal.cref}</td>
             <td>${personal.telefone || ""}</td>
             <td>${personal.email}</td>
             <td>
@@ -41,13 +42,13 @@ async function carregarPersonais(busca = "") {
     });
 }
 
+// CADASTRAR PERSONAL
 form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const personal = {
         nome: document.getElementById("nome").value,
         cpf: document.getElementById("cpf").value,
-        cref: document.getElementById("cref").value,
         telefone: document.getElementById("telefone").value,
         email: document.getElementById("email").value
     };
@@ -69,44 +70,65 @@ form.addEventListener("submit", async function(event) {
     }
 });
 
+// ABRIR JANELA DE EDIÇÃO
 async function editarPersonal(id) {
     const respostaLista = await fetch(`${API}/Personal`);
     const personais = await respostaLista.json();
+
     const personal = personais.find(p => p.idPersonal === id);
 
-    if (!personal) return;
+    if (!personal) {
+        alert("Personal não encontrado.");
+        return;
+    }
 
-    const nome = prompt("Nome:", personal.nome);
-    if (nome === null) return;
+    document.getElementById("editarIdPersonal").value = personal.idPersonal;
+    document.getElementById("editarNomePersonal").value = personal.nome;
+    document.getElementById("editarTelefonePersonal").value = personal.telefone || "";
+    document.getElementById("editarEmailPersonal").value = personal.email;
 
-    const cref = prompt("CREF:", personal.cref);
-    if (cref === null) return;
+    document.getElementById("modalEditarPersonal").style.display = "flex";
+}
 
-    const telefone = prompt("Telefone:", personal.telefone || "");
-    if (telefone === null) return;
+window.editarPersonal = editarPersonal;
 
-    const email = prompt("E-mail:", personal.email);
-    if (email === null) return;
+// FECHAR JANELA
+function fecharModalPersonal() {
+    document.getElementById("modalEditarPersonal").style.display = "none";
+}
+
+window.fecharModalPersonal = fecharModalPersonal;
+
+// SALVAR ALTERAÇÕES
+document.getElementById("formEditarPersonal").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const id = document.getElementById("editarIdPersonal").value;
+
+    const personal = {
+        nome: document.getElementById("editarNomePersonal").value,
+        telefone: document.getElementById("editarTelefonePersonal").value,
+        email: document.getElementById("editarEmailPersonal").value
+    };
 
     const resposta = await fetch(`${API}/Personal/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            nome: nome,
-            cref: cref,
-            telefone: telefone,
-            email: email
-        })
+        body: JSON.stringify(personal)
     });
 
     if (resposta.ok) {
         alert("Personal atualizado com sucesso!");
-        carregarPersonais();
+        fecharModalPersonal();
+
+        const busca = document.getElementById("busca").value;
+        await carregarPersonais(busca);
     } else {
         alert("Não foi possível editar o personal.");
     }
-}
+});
 
+// BUSCAR PERSONAIS
 document.getElementById("busca").addEventListener("input", function() {
     carregarPersonais(this.value);
 });

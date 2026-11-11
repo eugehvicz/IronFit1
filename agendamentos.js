@@ -1,3 +1,4 @@
+
 const API = "https://localhost:7067/api";
 
 if (!localStorage.getItem("usuario")) {
@@ -12,11 +13,13 @@ document.getElementById("btnSair").addEventListener("click", function() {
 const form = document.getElementById("formTreino");
 const mensagem = document.getElementById("mensagem");
 
+// CARREGAR ALUNOS
 async function carregarAlunos() {
     const resposta = await fetch(`${API}/Aluno`);
     const alunos = await resposta.json();
 
     const select = document.getElementById("aluno");
+    select.innerHTML = '<option value="">Selecione um aluno</option>';
 
     alunos.forEach(aluno => {
         const opcao = document.createElement("option");
@@ -26,6 +29,7 @@ async function carregarAlunos() {
     });
 }
 
+// CARREGAR AGENDAMENTOS
 async function carregarTreinos() {
     const resposta = await fetch(`${API}/Treino`);
     const treinos = await resposta.json();
@@ -46,7 +50,7 @@ async function carregarTreinos() {
             <td>${treino.observacoes || ""}</td>
             <td>
                 <button class="editar" onclick="alterarData(${treino.idTreino}, '${data}')">
-                    Alterar data
+                    Editar
                 </button>
 
                 <button class="excluir" onclick="excluirTreino(${treino.idTreino})">
@@ -59,6 +63,7 @@ async function carregarTreinos() {
     });
 }
 
+// CADASTRAR AGENDAMENTO
 form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -80,17 +85,36 @@ form.addEventListener("submit", async function(event) {
         mensagem.textContent = "Agendamento cadastrado com sucesso!";
         mensagem.style.color = "lightgreen";
         form.reset();
-        carregarTreinos();
+        await carregarTreinos();
     } else {
         mensagem.textContent = "Não foi possível cadastrar o agendamento.";
         mensagem.style.color = "red";
     }
 });
 
-async function alterarData(id, dataAtual) {
-    const novaData = prompt("Digite a nova data (AAAA-MM-DD):", dataAtual);
+// ABRIR JANELA DE EDIÇÃO
+function alterarData(id, dataAtual) {
+    document.getElementById("editarIdTreino").value = id;
+    document.getElementById("editarDataTreino").value = dataAtual;
 
-    if (!novaData) return;
+    document.getElementById("modalEditarTreino").style.display = "flex";
+}
+
+window.alterarData = alterarData;
+
+// FECHAR JANELA
+function fecharModalTreino() {
+    document.getElementById("modalEditarTreino").style.display = "none";
+}
+
+window.fecharModalTreino = fecharModalTreino;
+
+// SALVAR ALTERAÇÃO
+document.getElementById("formEditarTreino").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const id = document.getElementById("editarIdTreino").value;
+    const novaData = document.getElementById("editarDataTreino").value;
 
     const resposta = await fetch(`${API}/Treino/${id}`, {
         method: "PUT",
@@ -101,13 +125,15 @@ async function alterarData(id, dataAtual) {
     });
 
     if (resposta.ok) {
-        alert("Data alterada com sucesso!");
-        carregarTreinos();
+        alert("Agendamento atualizado com sucesso!");
+        fecharModalTreino();
+        await carregarTreinos();
     } else {
-        alert("Não foi possível alterar a data.");
+        alert("Não foi possível atualizar o agendamento.");
     }
-}
+});
 
+// EXCLUIR AGENDAMENTO
 async function excluirTreino(id) {
     if (!confirm("Deseja realmente excluir este agendamento?")) return;
 
@@ -117,11 +143,13 @@ async function excluirTreino(id) {
 
     if (resposta.ok) {
         alert("Agendamento excluído!");
-        carregarTreinos();
+        await carregarTreinos();
     } else {
         alert("Não foi possível excluir o agendamento.");
     }
 }
+
+window.excluirTreino = excluirTreino;
 
 carregarAlunos();
 carregarTreinos();

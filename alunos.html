@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IronFit - Alunos</title>
-    <link rel="stylesheet" href="internos.css">
+    <link rel="stylesheet" href="telasdedentro.css">
 </head>
 <body>
 
@@ -70,7 +70,48 @@
     </main>
 
 </div>
+<div id="modalEditarAluno" class="modal">
+    <div class="modal-conteudo">
 
+        <div class="modal-cabecalho">
+            <h2>Editar aluno</h2>
+            <button type="button" class="fechar-modal" onclick="fecharModalAluno()">×</button>
+        </div>
+
+        <form id="formEditarAluno">
+
+            <input type="hidden" id="editarIdAluno">
+
+            <label for="editarNome">Nome</label>
+            <input type="text" id="editarNome" required>
+
+            <label for="editarCpf">CPF</label>
+            <input type="text" id="editarCpf" required>
+
+            <label for="editarTelefone">Telefone</label>
+            <input type="text" id="editarTelefone">
+
+            <label for="editarEmail">E-mail</label>
+            <input type="email" id="editarEmail">
+
+            <label for="editarPersonal">Personal</label>
+            <select id="editarPersonal" required>
+                <option value="">Selecione um personal</option>
+            </select>
+
+            <div class="modal-botoes">
+                <button type="button" class="cancelar" onclick="fecharModalAluno()">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="salvar">
+                    Salvar alterações
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
 <script src="alunos.js"></script>
 </body>
 </html>

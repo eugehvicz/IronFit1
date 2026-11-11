@@ -1,3 +1,4 @@
+
 const API = "https://localhost:7067/api";
 
 const usuario = localStorage.getItem("usuario");
@@ -14,19 +15,30 @@ document.getElementById("btnSair").addEventListener("click", function() {
 const form = document.getElementById("formAluno");
 const mensagem = document.getElementById("mensagem");
 
+
 async function carregarPersonais() {
     const resposta = await fetch(`${API}/Personal`);
     const personais = await resposta.json();
 
-    const select = document.getElementById("personal");
+    const selectCadastro = document.getElementById("personal");
+    const selectEdicao = document.getElementById("editarPersonal");
+
+    selectCadastro.innerHTML = '<option value="">Selecione um personal</option>';
+    selectEdicao.innerHTML = '<option value="">Selecione um personal</option>';
 
     personais.forEach(personal => {
-        const opcao = document.createElement("option");
-        opcao.value = personal.idPersonal;
-        opcao.textContent = personal.nome;
-        select.appendChild(opcao);
+        const opcaoCadastro = document.createElement("option");
+        opcaoCadastro.value = personal.idPersonal;
+        opcaoCadastro.textContent = personal.nome;
+        selectCadastro.appendChild(opcaoCadastro);
+
+        const opcaoEdicao = document.createElement("option");
+        opcaoEdicao.value = personal.idPersonal;
+        opcaoEdicao.textContent = personal.nome;
+        selectEdicao.appendChild(opcaoEdicao);
     });
 }
+
 
 async function carregarAlunos() {
     const resposta = await fetch(`${API}/Aluno`);
@@ -54,6 +66,7 @@ async function carregarAlunos() {
         tabela.appendChild(linha);
     });
 }
+
 
 form.addEventListener("submit", async function(event) {
     event.preventDefault();
@@ -83,36 +96,65 @@ form.addEventListener("submit", async function(event) {
     }
 });
 
+
 async function editarAluno(id) {
-    const novoNome = prompt("Digite o novo nome do aluno:");
+    const resposta = await fetch(`${API}/Aluno`);
+    const alunos = await resposta.json();
 
-    if (!novoNome) return;
-
-    const respostaLista = await fetch(`${API}/Aluno`);
-    const alunos = await respostaLista.json();
     const aluno = alunos.find(a => a.idAluno === id);
 
-    if (!aluno) return;
+    if (!aluno) {
+        alert("Aluno não encontrado.");
+        return;
+    }
+
+    document.getElementById("editarIdAluno").value = aluno.idAluno;
+    document.getElementById("editarNome").value = aluno.nome;
+    document.getElementById("editarCpf").value = aluno.cpf;
+    document.getElementById("editarTelefone").value = aluno.telefone || "";
+    document.getElementById("editarEmail").value = aluno.email || "";
+    document.getElementById("editarPersonal").value = aluno.idPersonal;
+
+    document.getElementById("modalEditarAluno").style.display = "flex";
+}
+
+window.editarAluno = editarAluno;
+
+
+function fecharModalAluno() {
+    document.getElementById("modalEditarAluno").style.display = "none";
+}
+
+window.fecharModalAluno = fecharModalAluno;
+
+// SALVAR ALTERAÇÕES
+document.getElementById("formEditarAluno").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const id = document.getElementById("editarIdAluno").value;
+
+    const aluno = {
+        nome: document.getElementById("editarNome").value,
+        cpf: document.getElementById("editarCpf").value,
+        telefone: document.getElementById("editarTelefone").value,
+        email: document.getElementById("editarEmail").value,
+        idPersonal: Number(document.getElementById("editarPersonal").value)
+    };
 
     const resposta = await fetch(`${API}/Aluno/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            nome: novoNome,
-            cpf: aluno.cpf,
-            telefone: aluno.telefone,
-            email: aluno.email,
-            idPersonal: aluno.idPersonal
-        })
+        body: JSON.stringify(aluno)
     });
 
     if (resposta.ok) {
-        alert("Aluno atualizado!");
-        carregarAlunos();
+        alert("Aluno atualizado com sucesso!");
+        fecharModalAluno();
+        await carregarAlunos();
     } else {
-        alert("Não foi possível editar o aluno.");
+        alert("Não foi possível atualizar o aluno.");
     }
-}
+});
 
 async function excluirAluno(id) {
     if (!confirm("Deseja realmente excluir este aluno?")) return;
@@ -123,11 +165,13 @@ async function excluirAluno(id) {
 
     if (resposta.ok) {
         alert("Aluno excluído!");
-        carregarAlunos();
+        await carregarAlunos();
     } else {
         alert("Não foi possível excluir. Verifique se há treinos vinculados.");
     }
 }
+
+window.excluirAluno = excluirAluno;
 
 carregarPersonais();
 carregarAlunos();

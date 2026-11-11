@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -15,6 +16,7 @@ body {
     min-height: 100vh;
 }
 
+/* MENU LATERAL */
 .menu {
     width: 230px;
     background-color: #242424;
@@ -61,6 +63,7 @@ body {
     font-weight: bold;
 }
 
+/* CONTEÚDO */
 .conteudo {
     flex: 1;
     padding: 40px;
@@ -79,6 +82,7 @@ body {
     color: #bbbbbb;
 }
 
+/* CARDS */
 .cards {
     display: flex;
     gap: 20px;
@@ -92,12 +96,57 @@ body {
     border-radius: 10px;
     width: 220px;
     border-left: 4px solid #e63946;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background-color: #303030;
 }
 
 .card h3 {
     color: #e63946;
 }
 
+.card h2 {
+    font-size: 38px;
+    color: #e63946;
+    margin: 20px 0 8px;
+}
+
 .card p {
     font-size: 14px;
+}
+
+.card span {
+    display: inline-block;
+    color: #e63946;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 700px) {
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .menu {
+        width: 100%;
+    }
+
+    .conteudo {
+        padding: 20px;
+    }
+
+    .cards {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 100%;
+    }
 }
